@@ -68,14 +68,65 @@ public:
 
     void deleteNode(int index) {
        //TODO:Write the function to delete at the given index. Reuse the pre-written functions for edge cases. Account for missing index.
+        if (index == 0) {
+            delfirst();
+        } else if (index == length - 1) {
+            dellast();
+        }
+        Node<T> *temp = head;
+        for (int i = 0; i < index - 1; i++) {
+            temp=temp->next;
+        }
+        Node<T> *temp2 = temp->next;
+        temp->next = temp->next->next;
+        delete temp2;
+        length--;
     }
 
    void insert(int index, T *value) {
         //TODO:Write a function to insert a new node at a give index. Reuse the pre-written functions for edge cases. Account for missing index
+        if ((index < 0)||(index>=length)) {
+            cout<<"Index is out of bounds"<<endl;
+            return;
+        }
+        if (index == 0) {
+            addFront(value);
+        } else if (index == length - 1) {
+            add(value);
+        }
+        else {
+            Node<T> *nodeBefore = get(index-1);
+            Node<T> *newNode=new Node<T>(value);
+            newNode->next = nodeBefore->next;
+            nodeBefore->next = newNode;
+        }
+        length++;
     }
+
+    Node<T>* get(int index) {
+        if ((index < 0)||(index>=length)) {
+            return nullptr;
+        }
+        Node<T> *temp = head;
+        int curIndex = 0;
+        for (int i=0; i<index; i++) {
+            temp = temp->next;
+        }
+        return temp;
+    }
+
 
    void reverselist(){
         //TODO:Write a function to reverse the list using the logic from the slide.
+        Node<T>* prev, curr, next;
+        curr = head;
+        while (curr!=NULL) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
     }
 
     void print() {
@@ -93,11 +144,9 @@ int main() {
     student *s2 = new student("B", 21);
     student *s3 = new student("C", 22);
     LinkedList<student> *ll = new LinkedList<student>(s1);
+    ll->add(s1);
     ll->add(s2);
-    ll->addhead(s3);
-    ll->print();
-    ll->delfirst();
-    ll->print();
-    ll->dellast();
+    ll->add(s3);
+    ll->reverselist();
     ll->print();
 }
