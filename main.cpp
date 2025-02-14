@@ -73,10 +73,8 @@ public:
         } else if (index == length - 1) {
             dellast();
         }
-        Node<T> *temp = head;
-        for (int i = 0; i < index - 1; i++) {
-            temp=temp->next;
-        }
+        cout << "hi1" << endl;
+        Node<T> *temp = get(index-1);
         Node<T> *temp2 = temp->next;
         temp->next = temp->next->next;
         delete temp2;
@@ -90,12 +88,12 @@ public:
             return;
         }
         if (index == 0) {
-            addFront(value);
+            addhead(value);
         } else if (index == length - 1) {
             add(value);
         }
         else {
-            Node<T> *nodeBefore = get(index-1);
+            Node<T> *nodeBefore = get(index);
             Node<T> *newNode=new Node<T>(value);
             newNode->next = nodeBefore->next;
             nodeBefore->next = newNode;
@@ -143,10 +141,18 @@ int main() {
     student *s1 = new student("A", 20);
     student *s2 = new student("B", 21);
     student *s3 = new student("C", 22);
+    student *s4 = new student("D", 22);
+    student *s5 = new student("E", 22);
+    student *s6 = new student("F", 22);
     LinkedList<student> *ll = new LinkedList<student>(s1);
     ll->add(s1);
     ll->add(s2);
     ll->add(s3);
-    ll->reverselist();
+    ll->add(s4);
+    ll->add(s5);
+    ll->add(s6);
+    ll->insert(4, s2);
+
+    ll->deleteNode(1);
     ll->print();
 }
