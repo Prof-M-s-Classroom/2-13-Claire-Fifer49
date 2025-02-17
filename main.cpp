@@ -73,7 +73,7 @@ public:
         } else if (index == length - 1) {
             dellast();
         }
-        cout << "hi1" << endl;
+
         Node<T> *temp = get(index-1);
         Node<T> *temp2 = temp->next;
         temp->next = temp->next->next;
@@ -93,7 +93,7 @@ public:
             add(value);
         }
         else {
-            Node<T> *nodeBefore = get(index);
+            Node<T> *nodeBefore = get(index-1);
             Node<T> *newNode=new Node<T>(value);
             newNode->next = nodeBefore->next;
             nodeBefore->next = newNode;
@@ -116,15 +116,20 @@ public:
 
    void reverselist(){
         //TODO:Write a function to reverse the list using the logic from the slide.
-        Node<T>* prev, curr, next;
-        curr = head;
-        while (curr!=NULL) {
-            next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
+
+
+        Node<T> *before = nullptr;
+        Node<T> *curr = head;
+        Node<T> *after = head->next;
+
+        while (after!=nullptr) {
+            after = curr->next;
+            curr->next = before; // "flips" current's arrow around
+            before = curr; // moving ptrs "up" through the list
+            curr = after; // moving ptrs through the list
         }
-        head = prev;
+        head = before;
+
     }
 
     void print() {
@@ -140,19 +145,21 @@ public:
 int main() {
     student *s1 = new student("A", 20);
     student *s2 = new student("B", 21);
-    student *s3 = new student("C", 22);
-    student *s4 = new student("D", 22);
-    student *s5 = new student("E", 22);
-    student *s6 = new student("F", 22);
+    student *s3 = new student("C", 23);
+    student *s4 = new student("D", 24);
+    student *s5 = new student("E", 25);
+    student *s6 = new student("F", 26);
     LinkedList<student> *ll = new LinkedList<student>(s1);
-    ll->add(s1);
     ll->add(s2);
     ll->add(s3);
     ll->add(s4);
     ll->add(s5);
     ll->add(s6);
-    ll->insert(4, s2);
-
-    ll->deleteNode(1);
+    ll->print();
+    ll->reverselist();
+    ll->print();
+    ll->insert(4, new student("G", 22));
+    ll->print();
+    ll->deleteNode(4);
     ll->print();
 }
